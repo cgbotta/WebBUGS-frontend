@@ -1,0 +1,71 @@
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src= /static/scripts/script.js></script>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+  <div id="row">
+      <h4>Enter MarkBUGS Code Here</h4>
+      <textarea id="markbugs_code" name="markbugs_code" form="to_bugs" cols=40 rows=8>{{INPUT_NAME_2}}</textarea>
+
+      <br>
+
+      <form action="/markbugs_to_bugs/" id="to_bugs" method="post">
+        <input type="submit" value="Generate BUGS Code" class="submitButton"/>
+      </form>
+      
+      <h4>BUGS Code</h4>
+      <!-- Handle Errors Version -->
+
+      <!-- {% with messages = get_flashed_messages() %}
+      {% if messages %}
+          <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{messages[0]}}</textarea>
+      {% else %}
+          <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{INPUT_NAME_1}}</textarea>
+      {% endif %}
+
+    {% endwith %} -->
+
+    <!-- Diplay Errors Version -->
+      <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{INPUT_NAME_1}}</textarea>
+      <!-- <div>Mermaid Code</div> -->
+      <!-- <textarea name="mermaid_code" id="mermaid_code" cols="30" rows="10">{{INPUT_NAME_3}}</textarea> -->
+      
+      <h4>Load Examples</h4>
+
+      <form action="/example/1" id="example" method="get">
+        <input type="submit" value="Load Example 1" class="submitButton"/>
+      </form>
+
+      <form action="/example/2" id="example" method="get">
+        <input type="submit" value="Load Example 2" class="submitButton"/>
+      </form>
+
+      <form action="/example/3" id="example" method="get">
+        <input type="submit" value="Load Example 3" class="submitButton"/>
+      </form>
+
+      <h4>Logical Functions</h4>
+      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Functions" title="FAQ Search">
+
+      <!-- TODO try this for adding description to tool tip: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_tooltip -->
+      <ul id="myUL" style="list-style-type:none;">
+
+        <li><button onclick="insert_text(this.value)" value="max(X, Y)">max(X, Y)</button></li>
+        <li><button onclick="insert_text(this.value)" value="abs(X)">abs(X)</button></li>
+        <li><button onclick="insert_text(this.value)" value="step(X)">step(X)</button></li>
+      </ul>
+
+      <h4>Clear all Data</h4>
+
+      <form action="/clear_data/" id="clear_data" method="post">
+        <input type="submit" value="Clear Data" class="submitButton"/>
+      </form>
+
+
+
+
+
+  </div>
+</body>

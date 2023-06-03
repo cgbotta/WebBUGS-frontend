@@ -1,0 +1,11 @@
+Node1:constant[0.5]
+Node2:constant[20]
+Node1, Node2--> Node3:stochastic[dbin]
+Node3 --> Node4:logical[step(Y - 14.5)]
+
+model {
+Node1 <- 0.5
+Node2 <- 20.0
+Node3 <- dbin(0.5,20.0)
+Node4 <- step(Node3 - 14.5)
+}

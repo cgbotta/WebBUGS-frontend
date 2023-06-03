@@ -1,0 +1,4 @@
+Node1 = 0.5
+Node2 = 20.0
+Node3 = binomial(Node1, Node2)
+Node4 = step(Node3 - 14.5)
