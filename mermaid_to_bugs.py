@@ -93,9 +93,6 @@ def parse_node(node_str : str):
     return n
     
 def translate_v2(mermaid_code):
-    # Array of order to create everything, add stuff to this after each line of the file is processed
-    nodes_to_process = []
-
     lines = [line.replace(" ","") for line in mermaid_code.splitlines()]
 
     BUGS_code = 'model {\n'
@@ -178,109 +175,36 @@ def translate_v2(mermaid_code):
                 raise ValueError("Invalid constant node: ", line)
             node_dict[name] = node(name, value)
             BUGS_code = BUGS_code + f'{name} <- {value}\n'
-
-
-        # TODO continue from here with the above code. Basically starting the processing from scrath. 
-        # The below code is only being kept for reference, and will be deleted once the above code is complete.
-
-
-
-
-
-
-
-
-
-
-    # for index, line in enumerate(lines):
-    #     # Skip blank lines
-    #     if line == '\n' or line == '':
-    #         continue
-    #     to_process = [line]
-    #     if '->' in line:
-    #         # Split into 2 halves to process
-    #         to_process = [str.strip(piece) for piece in line.split('-->')] 
-    #     # TODO send to function to return final array with all connections specified
-    #     next_batch = identify_connections(to_process)
-    #     for x in next_batch:
-    #         nodes_to_process.append(x)
-    # # print(nodes_to_process)
-
-    # #TODO now need to iterate over nodes_to_process and create the actual node objects with connections
-    # # print("nodes_to_process",nodes_to_process)
-    # for element in nodes_to_process:
-    #     node_objects = create_nodes(element)
-    #     for node_update in node_objects:
-    #         update_graph(node_update)
-    
-    # # for key, value in node_dict.items():
-    #     # print(key, value)
             
-
-    # BUGS_code = 'model {\n'
-    # for node_name, node_object in node_dict.items():
-    #     if isinstance(node_object, node):
-    #         n = node_object
-    #     else:
-    #         raise ValueError("Internal Server Error: Node is only accepted type")
-        
-    #     if n.type == 'constant':
-    #         BUGS_code = BUGS_code + f'{n.name} <- {n.value}\n'
-    #     elif n.type == 'logical':
-    #         if len(n.parents) == 0:
-    #             BUGS_code = BUGS_code + f'{n.name} <- ({n.value})\n'
-    #         else:
-    #             # if n.function == 'step':
-    #             # Identify possible variables to replace
-    #             g = tokenize(BytesIO(n.value.encode("utf-8")).readline)
-    #             possible_variables = []
-    #             for toktype, tokval, st, end, _ in g:
-    #                 if tokval.isidentifier():
-    #                     possible_variables.append(tokval)
-    #             # print("possible_variables", possible_variables)
-
-    #             for token in possible_variables:
-    #                 if token in LOGICAL_FUNCTIONS:
-    #                     possible_variables.remove(token)
-    #             # print("possible_variables", possible_variables)
-
-    #             if len(n.parents) != len(possible_variables):
-    #                 raise ValueError(f"Number of parents does not equal number of variables in child: {n.parents} != {possible_variables}")
-    #             updated_value = n.value
-    #             # print("updated value", updated_value)
-    #             for index, val in enumerate(possible_variables):
-    #                 # print("val", val)
-    #                 # print("parent", n.parents[index].name)
-    #                 updated_value = updated_value.replace(val, n.parents[index].name)
-    #             # print("updated value", updated_value)
-
-    #             BUGS_code = BUGS_code + f'{n.name} <- {updated_value}\n'
-
-    #             # else:
-    #             #     raise ValueError(f"Invalid logical function: {n.function}")
-    #     elif n.type == 'stochastic':
-    #         if len(n.parents) == 0:
-    #             # TODO ??
-    #             BUGS_code = BUGS_code + f'{n.name} <- ({n.value})\n'
-    #         else:
-    #             if n.density == 'dbin':
-    #                 # Takes 2 arguments
-    #                 if len(n.parents) == 2:
-    #                     BUGS_code = BUGS_code + f'{n.name} <- dbin({n.parents[0].value},{n.parents[1].value})\n'
-    #                 else:
-    #                     raise ValueError(f"dbin requires 2 parents, recieved {len(n.parents)}")
-    #             elif n.density == 'dbern':
-    #                 # Takes 1 argument
-    #                 if len(n.parents) == 1:
-    #                     BUGS_code = BUGS_code + f'{n.name} <- dbern({n.parents[0].name})\n'
-    #                 else:
-    #                     raise ValueError(f"dbern requires 1 parent, recieved {len(n.parents)}")
-    #             else:
-    #                 raise ValueError(f"Invalid stochastic function: {n.density}")
-
-
     BUGS_code = BUGS_code + '}'
     return BUGS_code
+
+
+def translate_data(user_data):
+    lines = [line.replace(" ","") for line in user_data.splitlines()]
+
+    BUGS_data = 'list(\n'
+
+    loop_stack = []
+    for index, line in enumerate(lines):
+        # Skip blank lines
+        if line == '\n' or line == '':
+            continue
+        # Identify each case then handle it
+        halves = line.split('=')
+        name = halves[0]
+        value = halves[1]
+        # Check if value is an array
+        if '[' in value:
+            if ']' not in value:
+                raise ValueError("Invalid array: ", value)
+        # TODO continue here
+        # Maybe what I do here is read in data AFTER I read in the code, and then check that any undefined vars in the code are accounted for in the data. If not, error out. If accounted for, proceed.
+
+    BUGS_data = BUGS_data + ')'
+    return BUGS_data
+
+
 
 def clear_all_data():
     node_dict.clear()

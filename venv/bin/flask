@@ -1,4 +1,4 @@
-#!/Users/coltonbotta/Documents/Cambridge/Research/GUI/gui-v2/venv/bin/python3.10
+#!/Users/coltonbotta/Documents/Cambridge/Research/GUI/PyBUGS_V2/venv/bin/python3.10
 # -*- coding: utf-8 -*-
 import re
 import sys

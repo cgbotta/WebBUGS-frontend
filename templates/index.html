@@ -11,6 +11,11 @@
 
       <br>
 
+      <h4>Enter Data Here</h4>
+      <textarea id="data_input" name="data_input" form="to_bugs" cols=40 rows=8>{{INPUT_NAME_3}}</textarea>
+
+      <br>
+
       <form action="/markbugs_to_bugs/" id="to_bugs" method="post">
         <input type="submit" value="Generate BUGS Code" class="submitButton"/>
       </form>
@@ -32,6 +37,10 @@
       <!-- <div>Mermaid Code</div> -->
       <!-- <textarea name="mermaid_code" id="mermaid_code" cols="30" rows="10">{{INPUT_NAME_3}}</textarea> -->
       
+      <h4>BUGS Data</h4>
+      <textarea name="bugs_data" id="bugs_data" cols="30" rows="10">{{INPUT_NAME_4}}</textarea>
+
+
       <h4>Load Examples</h4>
 
       <form action="/example/1" id="example" method="get">
@@ -44,6 +53,10 @@
 
       <form action="/example/3" id="example" method="get">
         <input type="submit" value="Load Example 3" class="submitButton"/>
+      </form>
+
+      <form action="/example/4" id="example" method="get">
+        <input type="submit" value="Load Example 4" class="submitButton"/>
       </form>
 
       <h4>Logical Functions</h4>
