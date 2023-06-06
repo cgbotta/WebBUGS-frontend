@@ -1,5 +1,6 @@
 from tokenize import tokenize
 from io import BytesIO
+import numpy as np
 
 node_dict = {}
 
@@ -26,15 +27,9 @@ class node:
         self.density = None #TODO this one too 
         self.function = None #TODO and this one
         self.name_only = False
+        self.shape = None
     def __str__(self):
-        rtn = f"Name: {self.name}\nValue: {self.value}\nType: {self.type}\nDensity: {self.density}\n"
-        rtn = rtn + 'Parents: '
-        for p in self.parents:
-            rtn = rtn + p.name + ', '
-
-        rtn = rtn + '\nChildren: '
-        for c in self.children:
-            rtn = rtn + c.name + ', '
+        rtn = f"Name: {self.name}\nValue: {self.value}\nType: {self.type}\n"
         return rtn + '\n\n'
 
 def getSubstringBetweenTwoChars(ch1,ch2,str):
@@ -179,6 +174,8 @@ def translate_v2(mermaid_code):
     BUGS_code = BUGS_code + '}'
     return BUGS_code
 
+    #TODO before I return, make a note of any variables that are unaccounted for and maybe save this is a dict somewhere so that it can be accessed in the data conversion code. 
+
 
 def translate_data(user_data):
     lines = [line.replace(" ","") for line in user_data.splitlines()]
@@ -198,6 +195,37 @@ def translate_data(user_data):
         if '[' in value:
             if ']' not in value:
                 raise ValueError("Invalid array: ", value)
+            # Get all the values in the array
+            array_values = value[value.find('[')+1 : value.find(']')].split(',')
+            # Convert all the values to floats
+            array_values = [float(x) for x in array_values]
+            # Add the array to the dict
+            node_dict[name] = node(name, array_values)
+            node_dict[name].type = 'array'
+
+            if '.shape' in name:
+                pass
+                #TODO handle this case 
+            else:
+                BUGS_data = BUGS_data + f'{name} = c('
+                for index, val in enumerate(array_values):
+                    if index == len(array_values) - 1:
+                        BUGS_data = BUGS_data + f'{val}),\n'
+                    else:
+                        BUGS_data = BUGS_data + f'{val}, '
+
+
+
+        else:
+            # These should all be constants, not effecting other vars
+            if name in node_dict:
+                raise ValueError(f"Node {name} not referenced in code or data")
+            node_dict[name] = node(name, value)
+            BUGS_data = BUGS_data + f'{name} = {value},\n'
+            
+        
+        
+        
         # TODO continue here
         # Maybe what I do here is read in data AFTER I read in the code, and then check that any undefined vars in the code are accounted for in the data. If not, error out. If accounted for, proceed.
 
