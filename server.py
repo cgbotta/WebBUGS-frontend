@@ -1,10 +1,18 @@
 from flask import Flask, flash, render_template, request, redirect
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 import json
 from mermaid_to_bugs import translate_v2, clear_all_data, translate_data
 from os import getcwd
 app = Flask(__name__)
 app.secret_key = "3d6f45a5fc12445dbac2f59c3b6c7cb1"
+
+session = requests.Session()
+retry = Retry(connect=3, backoff_factor=0.5)
+adapter = HTTPAdapter(max_retries=retry)
+session.mount('http://', adapter)
+session.mount('https://', adapter)
 
 @app.route('/')
 def index():
@@ -38,7 +46,7 @@ def my_link():
 def aws():
   r = None
   try:
-    r = requests.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/')
+    r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/')
     # dict = r.json()
   except Exception as e:
     print("error: ", e)
