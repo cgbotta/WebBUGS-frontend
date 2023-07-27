@@ -1,4 +1,6 @@
 from flask import Flask, flash, render_template, request, redirect
+import requests
+import json
 from mermaid_to_bugs import translate_v2, clear_all_data, translate_data
 from os import getcwd
 app = Flask(__name__)
@@ -32,8 +34,18 @@ def my_link():
   bugs_data = translate_data(user_data)
   return render_template("index.html", INPUT_NAME_1 = bugs_code, INPUT_NAME_2 = user_input, INPUT_NAME_3 = user_data, INPUT_NAME_4 = bugs_data)  
 
+@app.route('/aws/', methods=["POST"])
+def aws():
+  r = None
+  try:
+    r = requests.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/')
+    # dict = r.json()
+  except Exception as e:
+    print("error: ", e)
+  return render_template("index.html", INPUT_NAME_2 = r.text)
+
 @app.route('/clear_data/', methods=["POST"])
-def clear():
+def clear_data():
   clear_all_data()
   return redirect('/')
 
