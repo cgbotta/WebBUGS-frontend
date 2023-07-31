@@ -1,0 +1,3 @@
+for (j in 1:J) {
+    y[j] = binomial(p[j], n[j])
+}

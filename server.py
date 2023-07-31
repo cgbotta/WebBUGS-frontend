@@ -18,10 +18,26 @@ session.mount('https://', adapter)
 def index():
     return render_template('index.html')
 
-@app.route('/markbugs_to_bugs/', methods=["POST"])
+@app.route('/compile/', methods=["POST"])
 def my_link():
   clear_all_data()
   user_input = request.form["markbugs_code"]
+  num_lines = len(user_input.splitlines())
+  print(num_lines)
+  r = None
+  feedback = ""
+  try:
+    # r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/please')
+    r = requests.post(url='https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/', data ={'user_input':user_input})
+    feedback = r.text
+    sub = 'line ' + str(num_lines + 1)
+    if sub in feedback:
+      feedback = feedback + 'You may need to add a closing bracket to your model\n------\nmodel{\n.\n}'
+    
+
+  except Exception as e:
+    print("error: ", e)
+  return render_template("index.html", BUGS_CODE = user_input, FEEDBACK = feedback)
   user_data = request.form["data_input"]
 
   # Handle errors version 
@@ -32,25 +48,27 @@ def my_link():
   # except Exception as e:
   #   flash("Error: " + str(e))
   # if bugs_code is not None:
-  #   return render_template("index.html", INPUT_NAME_1 = bugs_code, INPUT_NAME_2 = user_input, INPUT_NAME_3 = user_data)  
+  #   return render_template("index.html", BUGS_CODE_TEXTBOX = bugs_code, BUGS_CODE = user_input, DATA_INPUT = user_data)  
   # else:
-  #   return render_template("index.html", INPUT_NAME_2 = user_input, INPUT_NAME_3 = user_data)  
+  #   return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data)  
   # mermaid_code = generate_mermaid()
 
   # Display errors version 
   bugs_code = translate_v2(user_input)
   bugs_data = translate_data(user_data)
-  return render_template("index.html", INPUT_NAME_1 = bugs_code, INPUT_NAME_2 = user_input, INPUT_NAME_3 = user_data, INPUT_NAME_4 = bugs_data)  
+  return render_template("index.html", BUGS_CODE_TEXTBOX = bugs_code, BUGS_CODE = user_input, DATA_INPUT = user_data, BUGS_DATA_TEXTBOX = bugs_data)  
 
 @app.route('/aws/', methods=["POST"])
 def aws():
   r = None
+  dict = {}
   try:
-    r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/')
-    # dict = r.json()
+    # r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/please')
+    r = session.get('http://127.0.0.1:3000/please')
+
   except Exception as e:
     print("error: ", e)
-  return render_template("index.html", INPUT_NAME_2 = r.text)
+  return render_template("index.html", BUGS_CODE = r.text)
 
 @app.route('/clear_data/', methods=["POST"])
 def clear_data():
@@ -75,9 +93,9 @@ def get_example(id):
     print("error: ", e)
   
   if data_file_contents != "":
-    return render_template("index.html", INPUT_NAME_2 = code_file_contents, INPUT_NAME_3 = data_file_contents)
-  return render_template("index.html", INPUT_NAME_2 = code_file_contents)
+    return render_template("index.html", BUGS_CODE = code_file_contents, DATA_INPUT = data_file_contents)
+  return render_template("index.html", BUGS_CODE = code_file_contents)
 
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(debug=True, host='0.0.0.0', port=8080)

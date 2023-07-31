@@ -11,19 +11,25 @@
   </div>
   <div id="row">
       <h4>Enter MarkBUGS Code Here</h4>
-      <textarea id="markbugs_code" name="markbugs_code" form="to_bugs" cols=40 rows=8>{{INPUT_NAME_2}}</textarea>
+      <textarea id="markbugs_code" name="markbugs_code" form="to_bugs" cols=40 rows=8>{{BUGS_CODE}}</textarea>
+      
+      <form action="/compile/" id="to_bugs" method="post">
+        <input type="submit" value="Compile BUGS Code" class="submitButton"/>
+      </form>
+            
+      <h4>Server Feedback</h4>
+      <textarea id="feedback" name="feedback" form="feedback" cols=40 rows=8>{{FEEDBACK}}</textarea>
 
       <br>
 
       <h4>Enter Data Here</h4>
-      <textarea id="data_input" name="data_input" form="to_bugs" cols=40 rows=8>{{INPUT_NAME_3}}</textarea>
+      <textarea id="data_input" name="data_input" form="to_bugs" cols=40 rows=8>{{DATA_INPUT}}</textarea>
 
       <br>
 
-      <form action="/markbugs_to_bugs/" id="to_bugs" method="post">
-        <input type="submit" value="Generate BUGS Code" class="submitButton"/>
-      </form>
-      
+      <!-- <form action="/compile/" id="to_bugs" method="post">
+        <input type="submit" value="compile" class="submitButton"/>
+      </form> -->
       <h4>BUGS Code</h4>
       <!-- Handle Errors Version -->
 
@@ -31,18 +37,19 @@
       {% if messages %}
           <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{messages[0]}}</textarea>
       {% else %}
-          <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{INPUT_NAME_1}}</textarea>
+          <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{BUGS_CODE_TEXTBOX}}</textarea>
       {% endif %}
 
     {% endwith %} -->
 
     <!-- Diplay Errors Version -->
-      <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{INPUT_NAME_1}}</textarea>
+      <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{BUGS_CODE_TEXTBOX}}</textarea>
       <!-- <div>Mermaid Code</div> -->
-      <!-- <textarea name="mermaid_code" id="mermaid_code" cols="30" rows="10">{{INPUT_NAME_3}}</textarea> -->
-      
+      <!-- <textarea name="mermaid_code" id="mermaid_code" cols="30" rows="10">{{DATA_INPUT}}</textarea> -->
+
+
       <h4>BUGS Data</h4>
-      <textarea name="bugs_data" id="bugs_data" cols="30" rows="10">{{INPUT_NAME_4}}</textarea>
+      <textarea name="bugs_data" id="bugs_data" cols="30" rows="10">{{BUGS_DATA_TEXTBOX}}</textarea>
 
 
       <h4>Load Examples</h4>
@@ -85,6 +92,10 @@
       <form action="/aws/" id="aws" method="post">
         <input type="submit" value="aws" class="submitButton"/>
       </form>
+
+
+
+
 
 
 
