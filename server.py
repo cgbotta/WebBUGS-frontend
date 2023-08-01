@@ -30,8 +30,8 @@ def my_link():
   r = None
   feedback = ""
   try:
-    # r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/')
-    r = requests.get(url='https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
+    # r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/')
+    r = requests.get(url='https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
     feedback = r.text
     sub = 'line ' + str(num_lines + 1)
     if sub in feedback:
