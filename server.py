@@ -22,13 +22,16 @@ def index():
 def my_link():
   clear_all_data()
   user_input = request.form["markbugs_code"]
+  user_data = request.form["data_input"]
+  inits_input = request.form["inits_input"]
+  monitors_input = request.form["monitors_input"]
+
   num_lines = len(user_input.splitlines())
-  print(num_lines)
   r = None
   feedback = ""
   try:
     # r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/please')
-    r = requests.post(url='https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/', data ={'user_input':user_input})
+    r = requests.get(url='http://127.0.0.1:3000/compile', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
     feedback = r.text
     sub = 'line ' + str(num_lines + 1)
     if sub in feedback:
@@ -37,8 +40,7 @@ def my_link():
 
   except Exception as e:
     print("error: ", e)
-  return render_template("index.html", BUGS_CODE = user_input, FEEDBACK = feedback)
-  user_data = request.form["data_input"]
+  return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
 
   # Handle errors version 
 
@@ -91,10 +93,22 @@ def get_example(id):
     data_file_contents = data_file.read()
   except Exception as e:
     print("error: ", e)
+
+  inits_file_contents = ""
+  try:
+    inits_file = open(f'./examples/example_{id}_inits.txt', 'r')
+    inits_file_contents = inits_file.read()
+  except Exception as e:
+    print("error: ", e)
+
+  monitors_file_contents = ""
+  try:
+    monitors_file = open(f'./examples/example_{id}_monitors.txt', 'r')
+    monitors_file_contents = monitors_file.read()
+  except Exception as e:
+    print("error: ", e)
   
-  if data_file_contents != "":
-    return render_template("index.html", BUGS_CODE = code_file_contents, DATA_INPUT = data_file_contents)
-  return render_template("index.html", BUGS_CODE = code_file_contents)
+  return render_template("index.html", BUGS_CODE = code_file_contents, DATA_INPUT = data_file_contents, MONITORS_INPUT = monitors_file_contents, INITS_INPUT = inits_file_contents)
 
 
 if __name__ == '__main__':
