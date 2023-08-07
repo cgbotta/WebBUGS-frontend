@@ -93,10 +93,11 @@ def my_link():
 
     # load the file
     with open("./templates/index.html") as inf:
-      txt = inf.read()
-      print("txt", txt)
+      txt = inf.readlines()
+      for line in txt:
+        print(line)
       soup = bs4.BeautifulSoup(txt, features="html.parser")
-      print("soup", soup)
+      # print("soup", soup.text)
 
     # create new images
     for d in data:
@@ -105,7 +106,7 @@ def my_link():
 
       # insert it into the document
       soup.body.insert(len(soup.body.contents), new_img)
-      print("updated_soup", soup)
+      # print("updated_soup", soup)
 
     # save the file again
     with open("./templates/index.html", "w") as outf:
