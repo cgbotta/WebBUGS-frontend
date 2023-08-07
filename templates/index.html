@@ -1,51 +1,56 @@
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src= /static/scripts/script.js></script>
-    <link rel="stylesheet" href="/static/css/style.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+ </script>
+ <script src="/static/scripts/script.js">
+ </script>
+ <link href="/static/css/style.css" rel="stylesheet"/>
+ <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 </head>
 <body>
-    <div class="topnav">
-      <a class="active" href="#home">Home</a>
-      <a href="#about">About</a>
-  </div>
-  <div id="row">
-      <h4>Enter BUGS Code Here</h4>
-      <textarea id="markbugs_code" name="markbugs_code" form="to_bugs" cols=40 rows=8>{{BUGS_CODE}}</textarea>
-      
-      <form action="/compile/" id="to_bugs" method="post">
-        <input type="submit" value="Compile BUGS Code" class="submitButton"/>
-      </form>
-            
-
-      <br>
-
-      <h4>Enter Data Here</h4>
-      <textarea id="data_input" name="data_input" form="to_bugs" cols=40 rows=8>{{DATA_INPUT}}</textarea>
-      <h4>Enter Inits Here</h4>
-      <textarea id="inits_input" name="inits_input" form="to_bugs" cols=40 rows=8>{{INITS_INPUT}}</textarea>
-
-
-      <h4>Enter variables to monitor</h4>
-      <textarea id="monitors_input" name="monitors_input" form="to_bugs" cols=40 rows=8>{{MONITORS_INPUT}}</textarea>
-
-      <br>
-      <br>
-      <br>
-      <br>
-
-      <h4>Server Feedback</h4>
-      <textarea id="feedback" name="feedback" form="feedback" cols=40 rows=8>{{FEEDBACK}}</textarea>
-
-      <br>
-
-      <!-- <form action="/compile/" id="to_bugs" method="post">
+ <div class="topnav">
+  <a class="active" href="#home">
+   Home
+  </a>
+  <a href="#about">
+   About
+  </a>
+ </div>
+ <div id="row">
+  <h4>
+   Enter BUGS Code Here
+  </h4>
+  <textarea cols="40" form="to_bugs" id="markbugs_code" name="markbugs_code" rows="8">{{BUGS_CODE}}</textarea>
+  <form action="/compile/" id="to_bugs" method="post">
+   <input class="submitButton" type="submit" value="Compile BUGS Code"/>
+  </form>
+  <br/>
+  <h4>
+   Enter Data Here
+  </h4>
+  <textarea cols="40" form="to_bugs" id="data_input" name="data_input" rows="8">{{DATA_INPUT}}</textarea>
+  <h4>
+   Enter Inits Here
+  </h4>
+  <textarea cols="40" form="to_bugs" id="inits_input" name="inits_input" rows="8">{{INITS_INPUT}}</textarea>
+  <h4>
+   Enter variables to monitor
+  </h4>
+  <textarea cols="40" form="to_bugs" id="monitors_input" name="monitors_input" rows="8">{{MONITORS_INPUT}}</textarea>
+  <br/>
+  <br/>
+  <br/>
+  <br/>
+  <h4>
+   Server Feedback
+  </h4>
+  <textarea cols="40" form="feedback" id="feedback" name="feedback" rows="8">{{FEEDBACK}}</textarea>
+  <br/>
+  <!-- <form action="/compile/" id="to_bugs" method="post">
         <input type="submit" value="compile" class="submitButton"/>
       </form> -->
-      <!-- <h4>BUGS Code</h4> -->
-      <!-- Handle Errors Version -->
-
-      <!-- {% with messages = get_flashed_messages() %}
+  <!-- <h4>BUGS Code</h4> -->
+  <!-- Handle Errors Version -->
+  <!-- {% with messages = get_flashed_messages() %}
       {% if messages %}
           <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{messages[0]}}</textarea>
       {% else %}
@@ -53,65 +58,63 @@
       {% endif %}
 
     {% endwith %} -->
-
-    <!-- Diplay Errors Version -->
-      <!-- <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{BUGS_CODE_TEXTBOX}}</textarea> -->
-      <!-- <div>Mermaid Code</div> -->
-      <!-- <textarea name="mermaid_code" id="mermaid_code" cols="30" rows="10">{{DATA_INPUT}}</textarea> -->
-
-
-      <!-- <h4>BUGS Data</h4>
+  <!-- Diplay Errors Version -->
+  <!-- <textarea name="bugs_code" id="bugs_code" cols="30" rows="10">{{BUGS_CODE_TEXTBOX}}</textarea> -->
+  <!-- <div>Mermaid Code</div> -->
+  <!-- <textarea name="mermaid_code" id="mermaid_code" cols="30" rows="10">{{DATA_INPUT}}</textarea> -->
+  <!-- <h4>BUGS Data</h4>
       <textarea name="bugs_data" id="bugs_data" cols="30" rows="10">{{BUGS_DATA_TEXTBOX}}</textarea> -->
-
-
-      <h4>Load Examples</h4>
-
-      <form action="/example/1" id="example" method="get">
-        <input type="submit" value="Load Example 1" class="submitButton"/>
-      </form>
-
-      <form action="/example/2" id="example" method="get">
-        <input type="submit" value="Load Example 2" class="submitButton"/>
-      </form>
-
-      <form action="/example/3" id="example" method="get">
-        <input type="submit" value="Load Example 3" class="submitButton"/>
-      </form>
-
-      <form action="/example/4" id="example" method="get">
-        <input type="submit" value="Load Example 4" class="submitButton"/>
-      </form>
-
-      <h4>Logical Functions</h4>
-      <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for Functions" title="FAQ Search">
-
-      <!-- TODO try this for adding description to tool tip: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_tooltip -->
-      <ul id="myUL" style="list-style-type:none;">
-
-        <li><button onclick="insert_text(this.value)" value="max(X, Y)">max(X, Y)</button></li>
-        <li><button onclick="insert_text(this.value)" value="abs(X)">abs(X)</button></li>
-        <li><button onclick="insert_text(this.value)" value="step(X)">step(X)</button></li>
-      </ul>
-
-      <h4>Clear all Data</h4>
-
-      <form action="/clear_data/" id="clear_data" method="post">
-        <input type="submit" value="Clear Data" class="submitButton"/>
-      </form>
-
-      <h4>AWS</h4>
-
-      <form action="/aws/" id="aws" method="post">
-        <input type="submit" value="aws" class="submitButton"/>
-      </form>
-
-
-
-
-
-
-
-
-
-  </div>
+  <h4>
+   Load Examples
+  </h4>
+  <form action="/example/1" id="example" method="get">
+   <input class="submitButton" type="submit" value="Load Example 1"/>
+  </form>
+  <form action="/example/2" id="example" method="get">
+   <input class="submitButton" type="submit" value="Load Example 2"/>
+  </form>
+  <form action="/example/3" id="example" method="get">
+   <input class="submitButton" type="submit" value="Bayesian Logistic Regression + Prediction"/>
+  </form>
+  <form action="/example/4" id="example" method="get">
+   <input class="submitButton" type="submit" value="Normal Hierarchical Model"/>
+  </form>
+  <form action="/example/5" id="example" method="get">
+   <input class="submitButton" type="submit" value="Bayesian Logistic Regression"/>
+  </form>
+  <h4>
+   Logical Functions
+  </h4>
+  <input id="myInput" onkeyup="myFunction()" placeholder="Search for Functions" title="FAQ Search" type="text"/>
+  <!-- TODO try this for adding description to tool tip: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_tooltip -->
+  <ul id="myUL" style="list-style-type:none;">
+   <li>
+    <button onclick="insert_text(this.value)" value="max(X, Y)">
+     max(X, Y)
+    </button>
+   </li>
+   <li>
+    <button onclick="insert_text(this.value)" value="abs(X)">
+     abs(X)
+    </button>
+   </li>
+   <li>
+    <button onclick="insert_text(this.value)" value="step(X)">
+     step(X)
+    </button>
+   </li>
+  </ul>
+  <h4>
+   Clear all Data
+  </h4>
+  <form action="/clear_data/" id="clear_data" method="post">
+   <input class="submitButton" type="submit" value="Clear Data"/>
+  </form>
+  <h4>
+   AWS
+  </h4>
+  <form action="/aws/" id="aws" method="post">
+   <input class="submitButton" type="submit" value="aws"/>
+  </form>
+ </div>
 </body>

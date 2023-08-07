@@ -1,0 +1,3 @@
+# Inits
+
+list(alpha=0, b.sex=1, b.age=1)

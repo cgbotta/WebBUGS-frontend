@@ -1,6 +1,8 @@
 from tokenize import tokenize
 from io import BytesIO
 import numpy as np
+import os
+import bs4
 
 node_dict = {}
 
@@ -236,4 +238,23 @@ def translate_data(user_data):
 
 def clear_all_data():
     node_dict.clear()
+    dir = "static/images"
+    for f in os.listdir(dir):
+        os.remove(os.path.join(dir, f))
+
+    # load the file
+    with open("./templates/index.html") as inf:
+      txt = inf.read()
+      soup = bs4.BeautifulSoup(txt, features="html.parser")
+
+    for tag in soup.findAll('img'):
+        # Use extract to remove the tag
+        tag.extract()
+
+    # save the file again
+    with open("./templates/index.html", "w") as outf:
+      outf.write(bs4.BeautifulSoup.prettify(soup))
+
+
+
     return

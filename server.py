@@ -5,6 +5,13 @@ from urllib3.util.retry import Retry
 import json
 from mermaid_to_bugs import translate_v2, clear_all_data, translate_data
 from os import getcwd
+import matplotlib
+matplotlib.use('agg')
+from matplotlib import pyplot as plt
+from matplotlib.animation import FuncAnimation, PillowWriter
+import bs4
+
+import numpy as np
 app = Flask(__name__)
 app.secret_key = "3d6f45a5fc12445dbac2f59c3b6c7cb1"
 
@@ -30,16 +37,83 @@ def my_link():
   r = None
   feedback = ""
   try:
-    # r = session.get('https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/')
     r = requests.get(url='https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
-    feedback = r.text
+    # r = requests.get(url='http://127.0.0.1:3000/compile/', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
+    body = r.json()
+    feedback = body["logs"]
+    data = body['data']
+    print(data)
+    print(len(data))
     sub = 'line ' + str(num_lines + 1)
     if sub in feedback:
       feedback = feedback + 'You may need to add a closing bracket to your model\n------\nmodel{\n.\n}'
+
+    # Need to extract individual data from response
+
+    # Plotting
+
+    # ax1 = plt.plot(range(10000), data[0][1], 'o')
+    # ax2 = plt.plot(range(10000), data[1][1], 'o')
+    # ax3 = plt.plot(range(10000), data[2][1], 'o')
+    # x = range(10000)
+
+    for d in data:
+      plt.figure()
+      plt.xlabel('value')
+      plt.ylabel("samples")
+      plt.title(d[0])
+      # plt.hist(d[1], bins=20)
+      plt.plot(range(len(d[1])), d[1])
+      plt.savefig("./static/images/output_" + d[0] + ".jpg")
+      plt.close()
+
+
+    # x = range(10000)
+    # y = data[1][1]
+
+    # fig = plt.figure()
+    # plt.xlim(0, 10000)
+    # plt.ylim(0, 10)
+    # graph, = plt.plot([], [], 'o')
+
+    # def animate(i):
+    #     graph.set_data(x[:i+1], y[:i+1])
+    #     return graph
+
+    # ani = FuncAnimation(fig, animate, frames=10000, interval=20)
+    # plt.show()
+
     
+
+    # Saving the figure.
+    # plt.savefig("./static/output.jpg")
+    # ani.save("./static/TLI.gif", dpi=300, writer=PillowWriter(fps=1))
+
+
+    plt.clf()
+
+    # load the file
+    with open("./templates/index.html") as inf:
+      txt = inf.read()
+      soup = bs4.BeautifulSoup(txt, features="html.parser")
+
+    # create new images
+    for d in data:
+      new_img = soup.new_tag("img", src="/static/images/output_" + d[0] + ".jpg")
+      # insert it into the document
+      soup.body.insert(len(soup.body.contents), new_img)
+
+    # save the file again
+    with open("./templates/index.html", "w") as outf:
+      outf.write(bs4.BeautifulSoup.prettify(soup))
 
   except Exception as e:
     print("error: ", e)
+  # return redirect("/")
+
+
+
+
   return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
 
   # Handle errors version 

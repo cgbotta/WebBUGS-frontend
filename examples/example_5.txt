@@ -1,0 +1,14 @@
+model
+{
+    for (i in 1:n) {
+
+                                    #  Linear regression on logit
+  logit(p[i]) <- alpha + b.sex*sex[i] + b.age*age[i]
+
+                                    #  Likelihood function for each data point
+    frac[i]   ~ dbern(p[i])
+    }
+    alpha     ~ dnorm(0.0,1.0E-4)   #  Prior for intercept
+    b.sex     ~ dnorm(0.0,1.0E-4)   #  Prior for slope of sex
+    b.age     ~ dnorm(0.0,1.0E-4)   #  Prior for slope of age
+}

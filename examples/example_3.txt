@@ -1,3 +1,24 @@
-for (j in 1:J) {
-    y[j] = binomial(p[j], n[j])
+model {
+   for (i in 1:n) {
+      logit(p[i]) <- alpha + b.age*age[i]   #  Linear regression on logit for age
+      #  Likelihood function for each data point
+      CHD[i] ~ dbern(p[i])
+   }
+alpha  ~ dnorm(0.0,1.0E-4)   #  Prior for intercept
+b.age  ~ dnorm(0.0,1.0E-4)   #  Prior for slope of age
+
+#  Now to calculate the odds ratios for various functions of age
+#  OR per unit change in age
+   or.age <- exp(b.age)
+#  OR per decade change in age
+   or.age10 <- exp(10*b.age)
+#  OR per five year change in age
+   or.age5 <- exp(5*b.age)
+#  We can also make various predictions
+#  Predict fracture rate for 20 year old
+   pred.age20 <- exp(alpha + b.age*20)/(1+ exp(alpha + b.age*20))
+#  Predict fracture rate for 50 year old
+   pred.age50 <- exp(alpha + b.age*50)/(1+ exp(alpha + b.age*50))
+#  Predict fracture rate for 70 year old
+   pred.age70 <- exp(alpha + b.age*70)/(1+ exp(alpha + b.age*70))
 }
