@@ -41,7 +41,7 @@ def my_link():
     body = r.json()
     feedback = body["logs"]
     data = body['data']
-    print(data)
+    # print(data)
     print(len(data))
     sub = 'line ' + str(num_lines + 1)
     if sub in feedback:
