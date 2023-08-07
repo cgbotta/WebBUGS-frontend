@@ -11,7 +11,6 @@ from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
 import bs4
 
-import numpy as np
 app = Flask(__name__)
 app.secret_key = "3d6f45a5fc12445dbac2f59c3b6c7cb1"
 
@@ -95,13 +94,18 @@ def my_link():
     # load the file
     with open("./templates/index.html") as inf:
       txt = inf.read()
+      print("txt", txt)
       soup = bs4.BeautifulSoup(txt, features="html.parser")
+      print("soup", soup)
 
     # create new images
     for d in data:
       new_img = soup.new_tag("img", src="/static/images/output_" + d[0] + ".jpg")
+      print("new_img", new_img)
+
       # insert it into the document
       soup.body.insert(len(soup.body.contents), new_img)
+      print("updated_soup", soup)
 
     # save the file again
     with open("./templates/index.html", "w") as outf:
