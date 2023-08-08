@@ -244,6 +244,7 @@ def clear_all_data():
             os.remove(os.path.join(dir, f))
     # clear the data in the info file
     # clear the data in the info file
-    with open("templates/graphs_page.html",'w') as file:
-        pass
-    return
+    if os.path.isfile("./templates/graphs_page.html"):
+        os.remove("./templates/graphs_page.html")
+        with open("./templates/graphs_page.html", "w") as outf:
+            pass
