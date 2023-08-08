@@ -1,4 +1,4 @@
-from flask import Flask, flash, render_template, request, redirect
+from flask import Flask, flash, render_template, request, redirect, send_from_directory
 import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
@@ -23,6 +23,10 @@ session.mount('https://', adapter)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory('static', path)
 
 @app.route('/graphs/', methods=["POST"])
 def graphs():
