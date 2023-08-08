@@ -49,6 +49,20 @@ def graphs():
   monitors_input = request.form["monitors_input"]
   feedback = request.form["feedback"]
 
+  if os.path.isfile("./templates/graphs_page.html"):
+    os.remove("./templates/graphs_page.html")
+  with open("./templates/graphs_page.html", "w") as outf:
+      soup = bs4.BeautifulSoup()
+      dir = "static/images"
+      if os.path.exists(dir):
+        for f in os.listdir(dir):
+          new_img = soup.new_tag("img", src="/static/images/" + f)
+          soup.append(new_img)
+      # print("updated_soup", soup)
+
+      
+      outf.write(bs4.BeautifulSoup.prettify(soup))
+
   return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
 
 
@@ -120,20 +134,20 @@ def my_link():
     plt.clf()
 
     # load the file
-    if os.path.isfile("./templates/graphs_page.html"):
-      os.remove("./templates/graphs_page.html")
-    with open("./templates/graphs_page.html", "w") as outf:
-      # create new images
-      soup = bs4.BeautifulSoup()
-      for d in data:
-        new_img = soup.new_tag("img", src="/static/images/output_" + d[0] + ".jpg")
-        # print("new_img", new_img)
+    # if os.path.isfile("./templates/graphs_page.html"):
+    #   os.remove("./templates/graphs_page.html")
+    # with open("./templates/graphs_page.html", "w") as outf:
+    #   # create new images
+    #   soup = bs4.BeautifulSoup()
+    #   for d in data:
+    #     new_img = soup.new_tag("img", src="/static/images/output_" + d[0] + ".jpg")
+    #     # print("new_img", new_img)
 
-        # insert it into the document
-        soup.append(new_img)
-      # print("updated_soup", soup)
+    #     # insert it into the document
+    #     soup.append(new_img)
+    #   # print("updated_soup", soup)
 
-      outf.write(bs4.BeautifulSoup.prettify(soup))
+    #   outf.write(bs4.BeautifulSoup.prettify(soup))
 
   except Exception as e:
     print("error: ", e)
