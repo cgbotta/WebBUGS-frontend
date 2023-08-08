@@ -22,6 +22,9 @@
   <textarea cols="40" form="to_bugs" id="markbugs_code" name="markbugs_code" rows="8">{{BUGS_CODE}}</textarea>
   <form action="/compile/" id="to_bugs" method="post">
    <input class="submitButton" type="submit" value="Compile BUGS Code"/>
+   <button formaction="/graphs/" type="submit">
+    Graphs!
+   </button>
   </form>
   <br/>
   <h4>
@@ -43,7 +46,7 @@
   <h4>
    Server Feedback
   </h4>
-  <textarea cols="40" form="feedback" id="feedback" name="feedback" rows="8">{{FEEDBACK}}</textarea>
+  <textarea cols="40" form="to_bugs" id="feedback" name="feedback" rows="8">{{FEEDBACK}}</textarea>
   <br/>
   <!-- <form action="/compile/" id="to_bugs" method="post">
         <input type="submit" value="compile" class="submitButton"/>
@@ -117,9 +120,4 @@
    <input class="submitButton" type="submit" value="aws"/>
   </form>
  </div>
- <img src="/static/images/output_alpha.jpg"/>
- <img src="/static/images/output_b.age.jpg"/>
- <img src="/static/images/output_pred.age20.jpg"/>
- <img src="/static/images/output_pred.age50.jpg"/>
- <img src="/static/images/output_pred.age70.jpg"/>
 </body>

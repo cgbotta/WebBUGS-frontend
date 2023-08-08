@@ -24,6 +24,17 @@ session.mount('https://', adapter)
 def index():
     return render_template('index.html')
 
+@app.route('/graphs/', methods=["POST"])
+def graphs():
+  user_input = request.form["markbugs_code"]
+  user_data = request.form["data_input"]
+  inits_input = request.form["inits_input"]
+  monitors_input = request.form["monitors_input"]
+  feedback = request.form["feedback"]
+
+  return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
+
+
 @app.route('/compile/', methods=["POST"])
 def my_link():
   clear_all_data()
