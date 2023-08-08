@@ -24,6 +24,10 @@ session.mount('https://', adapter)
 def index():
     return render_template('index.html')
 
+@app.route('/graphs_page')
+def graphs_page():
+    return render_template('graphs_page.html')
+
 # @app.after_request
 # def add_header(response):
 #     response.cache_control.max_age = 10
@@ -33,6 +37,8 @@ def index():
 # @app.route('/static/<path:path>')
 # def serve_static(path):
 #     return send_from_directory('static', path)
+
+
 
 @app.route('/graphs/', methods=["POST"])
 def graphs():
