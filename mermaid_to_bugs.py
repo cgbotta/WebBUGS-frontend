@@ -245,7 +245,7 @@ def clear_all_data():
     # load the file
     with open("./templates/index.html") as inf:
       txt = inf.read()
-      soup = bs4.BeautifulSoup(txt, features="html.parser")
+      soup = bs4.BeautifulSoup(txt)
 
     for tag in soup.findAll('img'):
         # Use extract to remove the tag
