@@ -24,6 +24,12 @@ session.mount('https://', adapter)
 def index():
     return render_template('index.html')
 
+@app.after_request
+def add_header(response):
+    response.cache_control.max_age = 10
+    response.no_cache = True
+    return response
+
 @app.route('/static/<path:path>')
 def serve_static(path):
     return send_from_directory('static', path)
