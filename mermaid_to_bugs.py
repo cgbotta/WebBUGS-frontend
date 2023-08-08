@@ -255,6 +255,4 @@ def clear_all_data():
     with open("./templates/index.html", "w") as outf:
       outf.write(bs4.BeautifulSoup.prettify(soup))
 
-
-
     return

@@ -107,7 +107,7 @@ def my_link():
       txt = inf.read()
       # for line in txt:
         # print(line)
-      soup = bs4.BeautifulSoup(txt)
+      soup = bs4.BeautifulSoup(txt, features="html.parser")
       # print("soup", soup.text)
 
     # create new images
