@@ -242,18 +242,8 @@ def clear_all_data():
     if os.path.exists(dir):
         for f in os.listdir(dir):
             os.remove(os.path.join(dir, f))
-
-    # load the file
-    with open("./templates/index.html") as inf:
-      txt = inf.read()
-      soup = bs4.BeautifulSoup(txt)
-
-    for tag in soup.findAll('img'):
-        # Use extract to remove the tag
-        tag.extract()
-
-    # save the file again
-    with open("./templates/index.html", "w") as outf:
-      outf.write(bs4.BeautifulSoup.prettify(soup))
-
+    # clear the data in the info file
+    # clear the data in the info file
+    with open("templates/graphs_page.html",'w') as file:
+        pass
     return

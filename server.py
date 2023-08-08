@@ -10,6 +10,7 @@ matplotlib.use('agg')
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation, PillowWriter
 import bs4
+import os
 
 app = Flask(__name__)
 app.secret_key = "3d6f45a5fc12445dbac2f59c3b6c7cb1"
@@ -119,24 +120,19 @@ def my_link():
     plt.clf()
 
     # load the file
-    with open("./templates/index.html") as inf:
-      txt = inf.read()
-      # for line in txt:
-        # print(line)
-      soup = bs4.BeautifulSoup(txt)
-      # print("soup", soup.text)
+    if os.path.isfile("./templates/graphs_page.html"):
+      os.remove("./templates/graphs_page.html")
+    with open("./templates/graphs_page.html", "w") as outf:
+      # create new images
+      soup = bs4.BeautifulSoup()
+      for d in data:
+        new_img = soup.new_tag("img", src="/static/images/output_" + d[0] + ".jpg")
+        # print("new_img", new_img)
 
-    # create new images
-    for d in data:
-      new_img = soup.new_tag("img", src="/static/images/output_" + d[0] + ".jpg")
-      # print("new_img", new_img)
-
-      # insert it into the document
-      soup.body.insert(len(soup.body.contents), new_img)
+        # insert it into the document
+        soup.append(new_img)
       # print("updated_soup", soup)
 
-    # save the file again
-    with open("./templates/index.html", "w") as outf:
       outf.write(bs4.BeautifulSoup.prettify(soup))
 
   except Exception as e:
