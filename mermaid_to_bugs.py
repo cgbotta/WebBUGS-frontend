@@ -239,8 +239,9 @@ def translate_data(user_data):
 def clear_all_data():
     node_dict.clear()
     dir = "static/images"
-    for f in os.listdir(dir):
-        os.remove(os.path.join(dir, f))
+    if os.path.exists(dir):
+        for f in os.listdir(dir):
+            os.remove(os.path.join(dir, f))
 
     # load the file
     with open("./templates/index.html") as inf:
