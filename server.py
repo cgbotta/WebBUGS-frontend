@@ -109,7 +109,7 @@ def my_link():
       filename = "./static/images/output_" + d[0] + ".jpg"
       plt.savefig(filename)
       plt.close()
-      images.append("https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/static/images/output_" + d[0] + ".jpg")
+      images.append("https://cgb45.pythonanywhere.com/static/images/output_" + d[0] + ".jpg")
       # images.append("http://127.0.0.1:8080/static/images/output_" + d[0] + ".jpg")
 
 
