@@ -25,6 +25,7 @@ session.mount('https://', adapter)
 def index():
     return render_template('index.html')
 
+
 @app.route('/graphs_page')
 def graphs_page():
     return render_template('graphs_page.html')
@@ -97,7 +98,7 @@ def my_link():
     # ax2 = plt.plot(range(10000), data[1][1], 'o')
     # ax3 = plt.plot(range(10000), data[2][1], 'o')
     # x = range(10000)
-
+    images = []
     for d in data:
       plt.figure()
       plt.xlabel('value')
@@ -105,8 +106,11 @@ def my_link():
       plt.title(d[0])
       # plt.hist(d[1], bins=20)
       plt.plot(range(len(d[1])), d[1])
-      plt.savefig("./static/images/output_" + d[0] + ".jpg")
+      filename = "./static/images/output_" + d[0] + ".jpg"
+      plt.savefig(filename)
       plt.close()
+      images.append("https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/static/images/output_" + d[0] + ".jpg")
+      # images.append("http://127.0.0.1:8080/static/images/output_" + d[0] + ".jpg")
 
 
     # x = range(10000)
@@ -155,8 +159,18 @@ def my_link():
 
 
 
-
-  return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
+  if len(images) == 0:
+    return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
+  elif len(images) == 1:
+    return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0])
+  elif len(images) == 2:
+    return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0], IMAGE2 = images[1])
+  elif len(images) == 3:
+    return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0], IMAGE2 = images[1], IMAGE3 = images[2])
+  elif len(images) == 4:
+    return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0], IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3])
+  else:
+    return render_template("index.html", BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0], IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3])
 
   # Handle errors version 
 
