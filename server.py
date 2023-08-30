@@ -105,41 +105,41 @@ def my_link():
     # x = range(10000)
     images = []
     for d in data:
-      plt.figure()
-      plt.xlabel('value of ' + d[0])
-      plt.ylabel("probability")
-      plt.yticks([]) 
-      plt.title(d[0])
-      height, _, _ = plt.hist(d[1], bins=20)
-      plt.axvline(mean(d[1]), color='k', linestyle='dashed', linewidth=1)
+      # plt.figure()
+      # plt.xlabel('value of ' + d[0])
+      # plt.ylabel("probability")
+      # plt.yticks([]) 
+      # plt.title(d[0])
+      # height, _, _ = plt.hist(d[1], bins=20)
+      # plt.axvline(mean(d[1]), color='k', linestyle='dashed', linewidth=1)
 
-      min_ylim, max_ylim = plt.ylim()
-      plt.text(mean(d[1]), max_ylim*0.9, 'Mean: {:.3f}'.format(mean(d[1])))
+      # min_ylim, max_ylim = plt.ylim()
+      # plt.text(mean(d[1]), max_ylim*0.9, 'Mean: {:.3f}'.format(mean(d[1])))
 
-      ci = norm(*norm.fit(d[1])).interval(0.95)  # fit a normal distribution and get 95% c.i.
-      plt.fill_betweenx([0, height.max()], ci[0], ci[1], color='g', alpha=0.1)  # Mark between 0 and the highest bar in the histogram
-      filename = "./static/images/output_" + d[0] + ".jpg"
-      plt.savefig(filename)
-      plt.close()
+      # ci = norm(*norm.fit(d[1])).interval(0.95)  # fit a normal distribution and get 95% c.i.
+      # plt.fill_betweenx([0, height.max()], ci[0], ci[1], color='g', alpha=0.1)  # Mark between 0 and the highest bar in the histogram
+      # filename = "./static/images/output_" + d[0] + ".jpg"
+      # plt.savefig(filename)
+      # plt.close()
       # images.append("https://cgb45.pythonanywhere.com/static/images/output_" + d[0] + ".jpg")
       # images.append("http://127.0.0.1:8080/static/images/output_" + d[0] + ".jpg")
 
-      plt.clf()
+      # plt.clf()
 
       # graph 2
-      plt.figure()
-      plt.xlabel('sample')
-      plt.ylabel("value")
-      plt.title(d[0])
-      ax1 = plt.plot(range(10000), d[1], 'o')
+      # plt.figure()
+      # plt.xlabel('sample')
+      # plt.ylabel("value")
+      # plt.title(d[0])
+      # ax1 = plt.plot(range(10000), d[1], 'o')
 
-      filename = "./static/images/output_samples_" + d[0] + ".jpg"
-      plt.savefig(filename)
-      plt.close()
+      # filename = "./static/images/output_samples_" + d[0] + ".jpg"
+      # plt.savefig(filename)
+      # plt.close()
       # images.append("https://cgb45.pythonanywhere.com/static/images/output_" + d[0] + ".jpg")
       # images.append("http://127.0.0.1:8080/static/images/output_samples_" + d[0] + ".jpg")
 
-      plt.clf()
+      # plt.clf()
 
 
       # samples
@@ -188,37 +188,37 @@ def my_link():
 
 
   # print(samples)
-  if len(images) == 0:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
-  elif len(images) == 1:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0])
-  elif len(images) == 2:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1])
-  elif len(images) == 3:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1], IMAGE3 = images[2])
-  elif len(images) == 4:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                           IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3])
-  elif len(images) == 5:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4])
-  elif len(images) == 6:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5])
-  elif len(images) == 7:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6])
-  elif len(images) == 8:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6], IMAGE8 = images[7])
-  elif len(images) == 9:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6], IMAGE8 = images[7], IMAGE9 = images[8])
-  else:
-    return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
-                            IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6], IMAGE8 = images[7], IMAGE9 = images[8], IMAGE10 = images[9])
+  # if len(images) == 0:
+  return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
+  # elif len(images) == 1:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0])
+  # elif len(images) == 2:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1])
+  # elif len(images) == 3:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1], IMAGE3 = images[2])
+  # elif len(images) == 4:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                          IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3])
+  # elif len(images) == 5:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4])
+  # elif len(images) == 6:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5])
+  # elif len(images) == 7:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6])
+  # elif len(images) == 8:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6], IMAGE8 = images[7])
+  # elif len(images) == 9:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6], IMAGE8 = images[7], IMAGE9 = images[8])
+  # else:
+  #   return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback, IMAGE1 = images[0],
+  #                           IMAGE2 = images[1], IMAGE3 = images[2], IMAGE4 = images[3], IMAGE5 = images[4], IMAGE6 = images[5], IMAGE7 = images[6], IMAGE8 = images[7], IMAGE9 = images[8], IMAGE10 = images[9])
 
   # Handle errors version 
 
