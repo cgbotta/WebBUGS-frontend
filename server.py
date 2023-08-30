@@ -86,7 +86,6 @@ def my_link():
     body = r.json()
     feedback = body["logs"]
     data = body["data"]
-    print(data)
     # print(data)
     samples = {}
     # print(data)
