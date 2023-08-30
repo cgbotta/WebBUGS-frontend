@@ -1,6 +1,10 @@
 model{
-Node1 <- 0.5
-Node2 <- 20.0
-Node3 ~ dbin(Node1, Node2)
-Node4 <- step(Node3 - 14.5)
+    # Our prior belief about the probability of heads in a coin.
+    p ~ dbeta(2, 2)
+
+    # The number of observations.
+    for (n in 1:N) {
+        # Heads or tails of a coin are drawn from a Bernoulli distribution.
+        y[n] ~ dbern(p)
+    }
 }

@@ -3,6 +3,85 @@
  </script>
  <script src="/static/scripts/script.js">
  </script>
+ 	<script src='https://cdn.plot.ly/plotly-2.25.2.min.js'></script>
+ <script>
+      function download(filename, text) {
+        var element = document.createElement('a');
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + text);
+        element.setAttribute('download', filename);
+
+        element.style.display = 'none';
+        document.body.appendChild(element);
+
+        element.click();
+
+        document.body.removeChild(element);
+      }
+      var samples = '{{ samples|tojson }}';
+
+      function plot(){
+        json = JSON.parse(samples)
+        console.log(json)
+        
+
+        
+        var data = [];
+        var counter = 1;
+        for (const [key, value] of Object.entries(json)) {
+          xax = 'x' + counter;
+          yax = 'y' + counter;
+          name = key + 'samples';
+          console.log(xax);
+
+          var trace = {
+              y: value,
+              type: 'scatter',
+              xaxis: xax,
+              yaxis: yax,
+              name: key + ' samples'
+            };
+          data.push(trace);
+          
+          counter++;
+          xax = 'x' + counter;
+          yax = 'y' + counter;
+
+          var trace = {
+              x: value,
+              type: 'histogram',
+              xaxis: xax,
+              yaxis: yax,
+              name: key + ' PDF'
+            };
+            data.push(trace);
+            counter++;
+
+        }
+        console.log(json.length);
+        var layout = {
+          grid: {rows: Object.keys(json).length, columns: 2, pattern: 'independent',
+  xaxis: {
+    title: {
+      text: 'x Axis',
+  
+    },
+  },
+  yaxis: {
+    title: {
+      text: 'y Axis',
+    }
+  }},
+        };
+
+        Plotly.newPlot('myDiv', data, layout);
+
+      }
+
+function downloadSamples(){
+  console.log(samples)
+  download("samples.txt",JSON.stringify(samples));
+}
+ </script>
  <link href="/static/css/style.css" rel="stylesheet"/>
  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"/>
 </head>
@@ -21,24 +100,36 @@
   </h4>
   <textarea cols="40" form="to_bugs" id="markbugs_code" name="markbugs_code" rows="8">{{BUGS_CODE}}</textarea>
   <form action="/compile/" id="to_bugs" method="post">
-   <input class="submitButton" type="submit" value="Compile BUGS Code"/>
-   <button formaction="/graphs/" type="submit">
-    Graphs!
-   </button>
+   <input class="submitButton" type="submit"  value="Compile BUGS Code"/>
   </form>
+  <!-- <button onclick="showSlides(1)" type="submit">
+    Generate Graphs
+   </button> -->
+
+   <button onclick="downloadSamples()">
+    Download Samples
+   </button>
+
+   <br><br>
+
+   <button onclick="plot()">
+    Generate Graphs
+   </button>
+
+
   <br/>
   <h4>
    Enter Data Here
   </h4>
-  <textarea cols="40" form="to_bugs" id="data_input" name="data_input" rows="8">{{DATA_INPUT}}</textarea>
+  <textarea cols="40" form="to_bugs" id="data_input" name="data_input" rows="5">{{DATA_INPUT}}</textarea>
   <h4>
    Enter Inits Here
   </h4>
-  <textarea cols="40" form="to_bugs" id="inits_input" name="inits_input" rows="8">{{INITS_INPUT}}</textarea>
+  <textarea cols="40" form="to_bugs" id="inits_input" name="inits_input" rows="5">{{INITS_INPUT}}</textarea>
   <h4>
    Enter variables to monitor
   </h4>
-  <textarea cols="40" form="to_bugs" id="monitors_input" name="monitors_input" rows="8">{{MONITORS_INPUT}}</textarea>
+  <textarea cols="40" form="to_bugs" id="monitors_input" name="monitors_input" rows="3">{{MONITORS_INPUT}}</textarea>
   <br/>
   <br/>
   <br/>
@@ -46,7 +137,7 @@
   <h4>
    Server Feedback
   </h4>
-  <textarea cols="40" form="to_bugs" id="feedback" name="feedback" rows="8">{{FEEDBACK}}</textarea>
+  <textarea cols="40" form="to_bugs" id="feedback" name="feedback" rows="12">{{FEEDBACK}}</textarea>
   <br/>
   <!-- <form action="/compile/" id="to_bugs" method="post">
         <input type="submit" value="compile" class="submitButton"/>
@@ -71,24 +162,26 @@
    Load Examples
   </h4>
   <form action="/example/1" id="example" method="get">
-   <input class="submitButton" type="submit" value="Load Example 1"/>
+   <input class="submitButton" type="submit" value="Coin Flipping Model (Biased Coin)"/>
   </form>
-  <form action="/example/2" id="example" method="get">
+  <!-- <form action="/example/2" id="example" method="get">
    <input class="submitButton" type="submit" value="Load Example 2"/>
-  </form>
-  <form action="/example/3" id="example" method="get">
-   <input class="submitButton" type="submit" value="Bayesian Logistic Regression + Prediction"/>
-  </form>
-  <form action="/example/4" id="example" method="get">
-   <input class="submitButton" type="submit" value="Normal Hierarchical Model"/>
-  </form>
+  </form> -->
+
+
   <form action="/example/5" id="example" method="get">
    <input class="submitButton" type="submit" value="Bayesian Logistic Regression"/>
   </form>
+  <form action="/example/3" id="example" method="get">
+    <input class="submitButton" type="submit" value="Bayesian Logistic Regression + Prediction"/>
+   </form>
+   <form action="/example/4" id="example" method="get">
+    <input class="submitButton" type="submit" value="Normal Hierarchical Model"/>
+   </form>
   <h4>
    Logical Functions
   </h4>
-  <input id="myInput" onkeyup="myFunction()" placeholder="Search for Functions" title="FAQ Search" type="text"/>
+  <input id="myInput" onkeyup="myFunction()" placeholder="Search" size="10" title="FAQ Search" type="text"/>
   <!-- TODO try this for adding description to tool tip: https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_tooltip -->
   <ul id="myUL" style="list-style-type:none;">
    <li>
@@ -124,11 +217,84 @@
   <!-- <iframe frameborder="0" height="1000" id="graphs_page" src="http://cgb45.pythonanywhere.com/graphs_page" width="1000"> -->
 
   <!-- </iframe> -->
+  <!-- Slideshow container -->
+<!-- <div class="slideshow-container"> -->
 
-  <img src={{IMAGE1}} alt="">
-  <img src={{IMAGE2}} alt="">
-  <img src={{IMAGE3}} alt="">
-  <img src={{IMAGE4}} alt="">
+  <!-- Full-width images with number and caption text -->
+  <!-- <div class="mySlides">
+    <div class="numbertext">1 / 10</div>
+    <img src={{IMAGE1}}>
+    <div class="text">Caption Text</div>
+  </div>
+
+  <div class="mySlides">
+    <div class="numbertext">2 / 10</div>
+    <img src={{IMAGE2}}>
+    <div class="text">Caption Two</div>
+  </div>
+
+  <div class="mySlides">
+    <div class="numbertext">3 / 10</div>
+    <img src={{IMAGE3}}>
+    <div class="text">Caption Three</div>
+  </div>
+
+  <div class="mySlides">
+    <div class="numbertext">4 / 10</div>
+    <img src={{IMAGE4}}>
+    <div class="text">Caption Four</div>
+  </div>
+
+  <div class="mySlides">
+    <div class="numbertext">5 / 10</div>
+    <img src={{IMAGE5}}>
+    <div class="text">Caption Five</div>
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">6 / 10</div>
+    <img src={{IMAGE6}}>
+    <div class="text">Caption Six</div>
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">7 / 10</div>
+    <img src={{IMAGE7}}>
+    <div class="text">Caption Seven</div>
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">8 / 10</div>
+    <img src={{IMAGE8}}>
+    <div class="text">Caption Eight</div>
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">9 /10</div>
+    <img src={{IMAGE9}}>
+    <div class="text">Caption Nine</div>
+  </div>
+  <div class="mySlides">
+    <div class="numbertext">10 / 10</div>
+    <img src={{IMAGE10}}>
+    <div class="text">Caption Ten</div>
+  </div> -->
+
+  <!-- Next and previous buttons -->
+  <!-- <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+<br> -->
+
+<!-- The dots/circles -->
+<!-- <div style="text-align:center">
+  <span class="dot" onclick="currentSlide(1)"></span> 
+  <span class="dot" onclick="currentSlide(2)"></span> 
+  <span class="dot" onclick="currentSlide(3)"></span> 
+  <span class="dot" onclick="currentSlide(4)"></span> 
+  <span class="dot" onclick="currentSlide(5)"></span> 
+
+</div> -->
+
+
+<div id='myDiv'><!-- Plotly chart will be drawn inside this DIV --></div>
+
 
  </div>
 </body>
