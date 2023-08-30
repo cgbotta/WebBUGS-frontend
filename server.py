@@ -81,8 +81,8 @@ def my_link():
   r = None
   feedback = ""
   try:
-    # r = requests.get(url='https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
-    r = requests.get(url='http://127.0.0.1:3000/compile/', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
+    r = requests.get(url='https://flask-service.a4b97h85mfgc0.us-east-2.cs.amazonlightsail.com/compile/', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
+    # r = requests.get(url='http://127.0.0.1:3000/compile/', data ={'user_input':user_input, 'data_input':user_data, 'inits_input':inits_input, 'monitors_input':monitors_input})
     body = r.json()
     feedback = body["logs"]
     data = body["data"]
@@ -122,7 +122,7 @@ def my_link():
       plt.savefig(filename)
       plt.close()
       # images.append("https://cgb45.pythonanywhere.com/static/images/output_" + d[0] + ".jpg")
-      images.append("http://127.0.0.1:8080/static/images/output_" + d[0] + ".jpg")
+      # images.append("http://127.0.0.1:8080/static/images/output_" + d[0] + ".jpg")
 
       plt.clf()
 
@@ -137,7 +137,7 @@ def my_link():
       plt.savefig(filename)
       plt.close()
       # images.append("https://cgb45.pythonanywhere.com/static/images/output_" + d[0] + ".jpg")
-      images.append("http://127.0.0.1:8080/static/images/output_samples_" + d[0] + ".jpg")
+      # images.append("http://127.0.0.1:8080/static/images/output_samples_" + d[0] + ".jpg")
 
       plt.clf()
 
