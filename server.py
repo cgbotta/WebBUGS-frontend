@@ -187,7 +187,7 @@ def my_link():
   # return redirect("/")
 
 
-  print(samples)
+  # print(samples)
   if len(images) == 0:
     return render_template("index.html", samples=samples, BUGS_CODE = user_input, DATA_INPUT = user_data,  INITS_INPUT = inits_input,  MONITORS_INPUT = monitors_input, FEEDBACK = feedback)
   elif len(images) == 1:
